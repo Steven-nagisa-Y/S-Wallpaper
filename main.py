@@ -1,14 +1,14 @@
 # -*- coding:utf-8 -*-
 # Author: Steven Yan
 
-import time
-import os
-import sys
-import requests
-import win32api
-import win32con
-import win32gui
+from os import path, system, makedirs, remove, name, getenv
+from time import sleep, ctime
+from sys import exit
+from requests import get as Get
 from PIL import Image
+from win32api import RegOpenKeyEx, RegSetValueEx
+from win32con import HKEY_CURRENT_USER, KEY_SET_VALUE, REG_SZ, SPI_SETDESKWALLPAPER
+from win32gui import SystemParametersInfo
 
 
 def getUrl():
@@ -19,8 +19,8 @@ def getUrl():
 def downloadPic(picUrl):
     print("Downloading picture from StevenOS.com...\n")
     try:
-        req = requests.get(picUrl)
-        with open("pyDesktopPic.jpg", "wb") as ccc:
+        req = Get(picUrl)
+        with open("DO-NOT-MOVE-pyDesktopPic.jpg", "wb") as ccc:
             ccc.write(req.content)
         print("Picture saved at TEMP dir.\n")
     except:
@@ -30,15 +30,15 @@ def downloadPic(picUrl):
 
 
 def moveFile(file, des):
-    if not os.path.isfile(file):
+    if not path.isfile(file):
         print(file+" is not exist")
         print("Please contact me@StevenOS.com")
         goodBye()
     else:
-        if not os.path.exists(des):
-            os.makedirs(des)
+        if not path.exists(des):
+            makedirs(des)
         else:
-            os.system("move /y "+file+" "+des)
+            system("move /y "+file+" "+des)
             print("\n")
 
 
@@ -46,18 +46,18 @@ def convPic(jpg, bmp):
     try:
         img = Image.open(jpg)
         img.save(bmp, 'BMP')
-        os.remove(jpg)
+        remove(jpg)
         print("The picture was converted successfully.")
     except BaseException as e:
         print(e)
 
 
 def setWallpaper(picUri):
-    key = win32api.RegOpenKeyEx(
-        win32con.HKEY_CURRENT_USER, "Control Panel\\Desktop", 0, win32con.KEY_SET_VALUE)
-    win32api.RegSetValueEx(key, "WallpaperStyle", 0, win32con.REG_SZ, "2")
-    win32api.RegSetValueEx(key, "TileWallpaper", 0, win32con.REG_SZ, "0")
-    win32gui.SystemParametersInfo(win32con.SPI_SETDESKWALLPAPER, picUri, 1+2)
+    key = RegOpenKeyEx(
+        HKEY_CURRENT_USER, "Control Panel\\Desktop", 0, KEY_SET_VALUE)
+    RegSetValueEx(key, "WallpaperStyle", 0, REG_SZ, "2")
+    RegSetValueEx(key, "TileWallpaper", 0, REG_SZ, "0")
+    SystemParametersInfo(SPI_SETDESKWALLPAPER, picUri, 1+2)
     print("\n->>TODAY Wallpaper set!!!")
 
 
@@ -69,30 +69,30 @@ def printMe():
 
 
 def goodBye():
+
     print("\nGood Bye! See you next time!\n")
     for i in range(1, 4):
         print("-> %s" % str(4-i))
-        time.sleep(1)
-    sys.exit(0)
+        sleep(1)
+    exit(0)
 
 
 if __name__ == "__main__":
-    if not os.name == "nt":
+    if not name == "nt":
         print("This Program only supports Windows")
-        sys.exit(1)
+        exit(1)
     else:
-        os.system("mode con cols=60 lines=30")
-        os.system("color 0e")
-        os.system("title Daily Wallpaper Changer from StevenOS.com")
+        system("mode con cols=60 lines=30")
+        system("color 0e")
+        system("title Daily Wallpaper Changer from StevenOS.com")
         printMe()
-    print("Now: %s \n" % time.ctime())
-    tempDir = os.getenv('TEMP')
+    print("Now: %s \n" % ctime())
+    tempDir = getenv('TEMP')
     print("Your TEMP dir is: "+tempDir+"\n")
-    print("Note: cleaning out "+tempDir+" will delete the wallpaper file")
-    time.sleep(1)
+    print("Note: cleaning out "+tempDir+" will delete the wallpaper file\n")
     downloadPic(getUrl())
-    moveFile("pyDesktopPic.jpg", tempDir)
-    convPic(tempDir+"\pyDesktopPic.jpg", tempDir+"\pyDesktopPic.bmp")
-    time.sleep(1)
-    setWallpaper(tempDir+"\pyDesktopPic.bmp")
+    moveFile("DO-NOT-MOVE-pyDesktopPic.jpg", tempDir)
+    convPic(tempDir+"\DO-NOT-MOVE-pyDesktopPic.jpg",
+            tempDir+"\DO-NOT-MOVE-pyDesktopPic.bmp")
+    setWallpaper(tempDir+"\DO-NOT-MOVE-pyDesktopPic.bmp")
     goodBye()
