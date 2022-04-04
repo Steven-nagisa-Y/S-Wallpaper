@@ -5,4 +5,5 @@ set path=%1
 echo.
 echo %path%
 echo.
+echo.
 pause
