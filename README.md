@@ -1,25 +1,29 @@
 # S-Wallpaper
+
 ## Description:
 
-This a little python program that can download a picture from [Bing.com](https://bing.com), and set it as your Windows Wallpaper!
+This a little python program that can download a picture from [StevenOS.com](https://stevenos.com).
 
-**Only Support Windows Platform**
+Original picture is from bing.com.
+
+Only Support Windows
 
 ## Install:
-- Python Version: `3.7.9`
 
-- `pip install -r requirements.txt`
+You need to install `pyinstaller`
 
-If you want to build into `.exe` file:
+Run `pyinstaller -F main.py -i icon.ico`
 
-- Install `pyinstaller`
-
-- Run `pyinstaller -F main.py --icon=icon.ico`
-
-- The excutable file is `dist/main.exe` (For Windows)
+The excutive file is in `/dist/main.exe` (For Windows)
 
 ## Usage:
 
 `python main.py`
 
-or double click `dist/main.exe`
+or double click `/dist/main.exe`
+
+## Other:
+
+**注意** 后端服务器即将到期，且地址可能会更换。请按照下面博客文章自行配置服务端。非常简单！
+
+项目博客文章：[给桌面换上 bing 壁纸 S-Wallpaper](https://ryzenx.com/2021/06/S-Wallpaper/)
