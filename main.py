@@ -55,7 +55,7 @@ def convPic(jpg, bmp):
 def setWallpaper(picUri):
     key = RegOpenKeyEx(
         HKEY_CURRENT_USER, "Control Panel\\Desktop", 0, KEY_SET_VALUE)
-    RegSetValueEx(key, "WallpaperStyle", 0, REG_SZ, "2")
+    RegSetValueEx(key, "WallpaperStyle", 0, REG_SZ, "10")
     RegSetValueEx(key, "TileWallpaper", 0, REG_SZ, "0")
     SystemParametersInfo(SPI_SETDESKWALLPAPER, picUri, 1+2)
     print("\n->>TODAY Wallpaper set!!!")
